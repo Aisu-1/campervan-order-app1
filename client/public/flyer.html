@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>かわちラボ ポテト＆ドリンクチラシ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .font-rounded {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                background: white;
+                margin: 0;
+                padding: 0;
+            }
+            #flyer-content {
+                /* コンテンツ全体を86%に縮小してA4に確実に収める */
+                transform: scale(0.86);
+                transform-origin: top center;
+                width: 100%;
+                /* 中央寄せ */
+                margin: 0 auto; 
+            }
+            /* 余白をリセット */
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Print Button -->
+    <div class="fixed top-4 right-4 no-print z-50">
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2 transition transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            印刷する (A4)
+        </button>
+    </div>
+
+    <div id="flyer-content">
+    <!-- Flyer Container (A4 Ratio) -->
+    <div class="bg-white w-[210mm] min-h-[297mm] shadow-2xl overflow-hidden relative flex flex-col border-t-8 border-orange-400">
+        
+        <!-- Header Area (Simple) -->
+        <div class="pt-16 pb-8 px-12 text-center bg-orange-50/50">
+            <p class="text-orange-600 font-bold text-xl tracking-widest mb-4 font-rounded">KAWACHI LAB. THIRD PLACE</p>
+            <h1 class="text-5xl md:text-6xl font-black text-gray-800 font-rounded leading-tight">
+                <span class="text-orange-500">揚げたて</span>ポテトと<br>
+                <span class="text-brown-600">温かい</span>ドリンク
+            </h1>
+        </div>
+
+        <!-- Date & Time -->
+        <div class="mx-12 -mt-6 relative z-10 flex flex-col md:flex-row justify-center items-center">
+            <div class="bg-gray-800 text-white py-4 px-12 rounded-full shadow-lg flex items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span class="text-2xl font-bold font-rounded">2/11 (水・祝)</span>
+                </div>
+                <div class="w-px h-6 bg-gray-600"></div>
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-2xl font-bold font-rounded">10:00 - なくなり次第</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 px-12 py-10 flex flex-col gap-8">
+            
+            <!-- Message -->
+            <div class="text-center mb-4">
+                <p class="text-xl text-gray-600 font-medium leading-relaxed">
+                    かわちラボ サードプレイスにて、1日限定オープン！
+                </p>
+            </div>
+
+            <!-- Discount Banner -->
+            <div class="bg-red-500 text-white p-4 rounded-xl text-center shadow-md transform -rotate-1 mx-4">
+                <h2 class="text-2xl font-bold font-rounded">
+                    🍟 ポテト ＋ 🥤 ドリンク セットで <span class="text-yellow-300 text-3xl">100円引き！</span>
+                </h2>
+                <p class="text-sm mt-1 text-white/90">※コーラ・お茶は割引対象外となります</p>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
+                <!-- Food Menu -->
+                <div class="border-4 border-yellow-200 rounded-3xl p-8 relative bg-yellow-50/30">
+                    <h3 class="text-3xl font-black text-yellow-600 text-center mb-8 font-rounded flex items-center justify-center gap-2">
+                        <span>🍟</span> フライドポテト
+                    </h3>
+                    
+                    <ul class="space-y-5">
+                        <li class="flex justify-between items-end border-b border-dashed border-yellow-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">塩</span>
+                            <span class="text-2xl font-black text-orange-600">¥500</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-yellow-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">ブラックペッパー</span>
+                            <span class="text-2xl font-black text-orange-600">¥500</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-yellow-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">コンソメ</span>
+                            <span class="text-2xl font-black text-orange-600">¥500</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-yellow-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">ケチャップ</span>
+                            <span class="text-2xl font-black text-orange-600">¥500</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-yellow-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">すしのこ</span>
+                            <span class="text-2xl font-black text-orange-600">¥500</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-yellow-300 pb-2 bg-yellow-100/50 -mx-2 px-2 rounded">
+                            <span class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                <span class="text-sm bg-orange-500 text-white px-2 py-0.5 rounded-full">人気</span>
+                                チーズ
+                            </span>
+                            <span class="text-2xl font-black text-orange-600">¥600</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-8 bg-yellow-400 text-white p-3 rounded-xl text-center shadow-sm">
+                        <p class="text-xl font-bold">各種 大盛り <span class="text-3xl ml-2">+¥200</span></p>
+                    </div>
+                </div>
+
+                <!-- Drink Menu -->
+                <div class="border-4 border-orange-200 rounded-3xl p-8 relative bg-orange-50/30">
+                    <h3 class="text-3xl font-black text-orange-600 text-center mb-8 font-rounded flex items-center justify-center gap-2">
+                        <span>☕</span> ドリンク
+                    </h3>
+                    
+                    <ul class="space-y-5">
+                        <li class="flex justify-between items-end border-b border-dashed border-orange-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">ホットコーヒー</span>
+                            <span class="text-2xl font-black text-orange-600">¥400</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-orange-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">ホットココア</span>
+                            <span class="text-2xl font-black text-orange-600">¥300</span>
+                        </li>
+                        <li class="flex justify-between items-end border-b border-dashed border-orange-300 pb-2">
+                            <span class="text-xl font-bold text-gray-800">コーンスープ</span>
+                            <span class="text-2xl font-black text-orange-600">¥300</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8 space-y-3">
+                        <div class="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
+                            <span class="font-bold text-gray-700">コーラ</span>
+                            <span class="font-black text-xl text-gray-700">¥200</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-green-50 p-3 rounded-lg">
+                            <span class="font-bold text-green-800">お茶</span>
+                            <span class="font-black text-xl text-green-700">¥100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-800 text-white text-center py-6 mt-auto">
+            <p class="font-bold text-xl mb-1">かわちラボ サードプレイス</p>
+            <p class="text-sm opacity-70">皆様のお越しを心よりお待ちしております</p>
+        </div>
+    </div>
+    </div> <!-- End of flyer-content -->
+
+</body>
+</html>
