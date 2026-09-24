@@ -50,12 +50,11 @@ const io = new Server(server, {
 // Google Apps ScriptのURL (環境変数から取得)
 const GAS_URL = process.env.GAS_URL;
 
-// スタッフ認証設定 (環境変数から取得。未設定の場合はエラー)
-const STAFF_PIN = process.env.STAFF_PIN;
-if (!STAFF_PIN) {
-  console.warn("WARNING: STAFF_PIN environment variable is not set.");
+// スタッフ認証設定 (環境変数から取得。デフォルト: "0000")
+const STAFF_PIN = process.env.STAFF_PIN || "0000";
+if (!process.env.STAFF_PIN) {
+  console.warn("WARNING: STAFF_PIN is using default test PIN '0000'. Please set STAFF_PIN environment variable for production.");
 }
-
 
 // ステータス遷移の定義
 const VALID_STATUS_FLOW = {
@@ -217,13 +216,15 @@ app.post('/api/orders', async (req, res) => {
     delete notificationData.token;
     io.to('staff_room').emit('new_order', notificationData);
 
-    // スプレッドシートへ送信 (非同期で行い、レスポンスを待たない)
-    const itemsSummary = items.map(i => `${i.name} x${i.qty}`).join(', ');
-    axios.post(GAS_URL, {
-      id: newOrder.id,
-      total: serverTotal,
-      items: itemsSummary
-    }).catch(e => console.error("GAS Error:", e.message));
+    // スプレッドシートへ送信 (GAS_URLが設定されている場合のみ非同期送信)
+    if (GAS_URL) {
+      const itemsSummary = items.map(i => `${i.name} x${i.qty}`).join(', ');
+      axios.post(GAS_URL, {
+        id: newOrder.id,
+        total: serverTotal,
+        items: itemsSummary
+      }).catch(e => console.error("GAS Error:", e.message));
+    }
 
     res.json(newOrder);
   } catch (err) {
@@ -283,12 +284,15 @@ io.on('connection', (socket) => {
 
   // 特定の注文の更新を受け取るためのルーム入室 (トークン認証)
   socket.on('join_order', ({ id, token }) => {
-    db.get("SELECT token FROM orders WHERE id = ?", [id], (err, row) => {
-      if (!err && row && row.token === token) {
+    try {
+      const row = db.prepare('SELECT token FROM orders WHERE id = ?').get(id);
+      if (row && row.token === token) {
         socket.join(`order_${id}`);
         console.log(`Socket ${socket.id} joined room: order_${id}`);
       }
-    });
+    } catch (e) {
+      console.warn('join_order lookup failed:', e.message);
+    }
   });
 
   socket.on('disconnect', () => {

@@ -19,3 +19,12 @@ dist
 # Database
 server/campervan.db*
 .env
+
+# Sensitive & Binary Assets
+server/campervan.db*
+*.xlsx
+*報告書*.pdf
+*.zip
+*.ttf
+IMG_*.png
+.env*

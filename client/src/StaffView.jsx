@@ -139,15 +139,18 @@ export default function StaffView() {
   };
 
   const updateStatus = async (id, status) => {
+    const orderId = Number(id);
     try {
-      await axios.put(`${API_URL}/api/orders/${id}/status`, { status }, {
+      await axios.put(`${API_URL}/api/orders/${orderId}/status`, { status }, {
         headers: { 'x-staff-pin': pin }
       });
-      // 注意: ここで直接 setOrders しない。
-      // サーバー側で io.to('staff_room').emit('order_status_updated') しているので、
-      // Socketリスナー側で自動的に更新されるのを待つ（これにより二重更新や同期ズレを防ぐ）。
+      // PUT 成功直後にローカル状態を更新（Socket が同一プロセスに届かない環境でも確実に反映）
+      setOrders(prev =>
+        prev.map(o => (Number(o.id) === orderId ? { ...o, status } : o))
+      );
     } catch (err) {
       console.error("Failed to update status", err);
+      fetchOrders();
     }
   };
 
@@ -205,7 +208,10 @@ export default function StaffView() {
       });
 
       socket.on('order_status_updated', ({ id, status }) => {
-        setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
+        const nid = Number(id);
+        setOrders(prev =>
+          prev.map(o => (Number(o.id) === nid ? { ...o, status } : o))
+        );
       });
 
       socket.on('menu_updated', fetchMenu);
